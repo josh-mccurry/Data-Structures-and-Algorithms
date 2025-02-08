@@ -2,7 +2,8 @@ import random
 
 # Sorting Algorithms
 
-rand_list = list(range(1, 5000))
+# Generate a randomized list of values that span the range
+rand_list = list(range(1, 20))
 random.shuffle(rand_list)
 
 # BUBBLE SORT
@@ -63,4 +64,52 @@ def insertion_sort(list):
     
     return list
 
-print(f"Sorted List: {insertion_sort(rand_list)}")
+#print(f"Sorted List: {insertion_sort(rand_list)}")
+
+# MERGE SORT
+# Best Case: O(n log n)
+# Average Case: O(n log n)
+# Worst Case: O(n log n)
+
+def merge_sort(list):
+
+    if len(list) <= 1:
+        return list
+    
+    # Locate the middle and divide the list into two halves
+    mid = len(list) // 2
+    left_half = list[:mid]
+    right_half = list[mid:]
+
+    # recursively invoke merge_sort on the halves
+    left_half = merge_sort(left_half)
+    right_half = merge_sort(right_half)
+
+    # pass the halves to merge
+    return merge(left_half, right_half)
+
+def merge(left, right):
+    
+    # establish the left most values in each half
+    result = []
+    left_index, right_index = 0, 0
+
+    # Loop through both halves
+    while left_index < len(left) and right_index < len(right):
+        # Determine which half is less than the other and append it to result
+        if left[left_index] <= right[right_index]:
+            result.append(left[left_index])
+            left_index += 1
+        else:
+            result.append(right[right_index])
+            right_index += 1
+    
+    # Appends any remaining elements from left list (in the event right list was emptied first)
+    result.extend(left[left_index:])
+    # Appends any remaining elements from right list (in the event left list was emptied first)
+    result.extend(right[right_index:])
+
+    return result
+
+print(f"Unsorted List: {rand_list}")
+print(f"Sorted List: {merge_sort(rand_list)}")
