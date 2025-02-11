@@ -3,7 +3,7 @@ import random
 # Sorting Algorithms
 
 # Generate a randomized list of values that span the range
-rand_list = list(range(1, 20))
+rand_list = list(range(1, 200))
 random.shuffle(rand_list)
 
 # BUBBLE SORT
@@ -111,5 +111,46 @@ def merge(left, right):
 
     return result
 
+#print(f"Unsorted List: {rand_list}")
+#print(f"Sorted List: {merge_sort(rand_list)}")
+
+# QUICK SORT
+# Best Case: O(n log n)
+# Average Case: O(n log n)
+# Worst Case: O(n^2)
+
+def quick_sort(list, start_index, end_index):
+
+    if start_index >= end_index:
+        return
+    
+    p = partition(list, start_index, end_index)
+
+    quick_sort(list, start_index, p - 1)
+    quick_sort(list, p + 1, end_index)
+
+def partition(list, start_index, end_index):
+    
+    pivot = list[start_index]
+    low = start_index + 1
+    high = end_index
+
+    while True:
+        while low <= high and list[high] >= pivot:
+            high = high - 1
+        
+        while low <= high and list[low] <= pivot:
+            low = low + 1
+        
+        if low <= high:
+            list[low], list[high] = list[high], list[low]
+        else:
+            break
+
+    list[start_index], list[high] = list[high], list[start_index]
+    
+    return high
+
 print(f"Unsorted List: {rand_list}")
-print(f"Sorted List: {merge_sort(rand_list)}")
+quick_sort(rand_list, 0, len(rand_list) - 1)
+print(f"Sorted List: {rand_list}")
